@@ -5,7 +5,7 @@
 
 
 
-base=/opt/sf-log-forwarder/templates/$OSVER
+base=/opt/farm/ext/log-forwarder/templates/$OSVER
 
 if [ "$SYSLOG" = "true" ]; then
 	echo "install sf-log-receiver extension instead of sf-log-forwarder"

@@ -17,9 +17,15 @@ if [ ! -f $base/rsyslog.tpl ] || [ ! -f /etc/rsyslog.conf ]; then
 	exit 1
 fi
 
+oldmd5=`md5sum /etc/rsyslog.conf`
 save_original_config /etc/rsyslog.conf
 
 echo "configuring rsyslog as log forwarder"
 cat $base/rsyslog.tpl |sed s/%%syslog%%/$SYSLOG/g >/etc/rsyslog.conf
+newmd5=`md5sum /etc/rsyslog.conf`
 
-service rsyslog restart
+if [ "$oldmd5" != "$newmd5" ]; then
+	service rsyslog restart
+else
+	echo "skipping rsyslog restart, configuration has not changed"
+fi
